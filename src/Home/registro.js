@@ -28,7 +28,7 @@ export default (props)=> {
   }
   return (
     <div class="container">
-          <hr></hr>
+          <br></br> <br></br> <br></br>
             
                 <p class="title">
                 Registro de usarios
