@@ -11,24 +11,24 @@ import Propietario from '../view/vistaPropietario.js';
 import newPropietario from '../Componentes/newPropietario.js'
 import prueba from '../Componentes/prueba.js'
 import modificarEmpleado from "../Componentes/modificarEmpleados.js"
+import PropietarioHome from '../Propietarios/propietarioHome.js';
 
 function ruta(){
     return (
-        
-        <BrowserRouter>
-            <Route exact path="/loginE" component={Home}></Route>
-            <Route exact path="/" component={homeP}></Route>
-            <Route exact path="/registro" component={Registrar}></Route>
-            <Route exact path="/usuario" component={User}></Route>
-            <Route exact path="/empleado" component={Empleados}></Route>
-            <Route exact path="/admin" component={administrador}></Route>
-            <Route exact path="/newE" component={newEmpleados}></Route>
-            <Route exact path="/propietario" component={Propietario}></Route>
-            <Route exact path="/newP" component={newPropietario}></Route>
-            <Route exact path="/prueba" component={prueba}></Route>
-            <Route exact path="/modE" component={modificarEmpleado}></Route>
-         </BrowserRouter>    
-         
+      <BrowserRouter>
+        <Route exact path="/loginE" component={Home}></Route>
+        <Route exact path="/" component={homeP}></Route>
+        <Route exact path="/registro" component={Registrar}></Route>
+        <Route exact path="/usuario" component={User}></Route>
+        <Route exact path="/empleado" component={Empleados}></Route>
+        <Route exact path="/admin" component={administrador}></Route>
+        <Route exact path="/newE" component={newEmpleados}></Route>
+        <Route exact path="/propietario" component={Propietario}></Route>
+        <Route exact path="/newP" component={newPropietario}></Route>
+        <Route exact path="/prueba" component={prueba}></Route>
+        <Route exact path="/modE" component={modificarEmpleado}></Route>
+        <Route exact path="/propietarioHome" component={PropietarioHome}></Route>
+      </BrowserRouter>
     );
 }
 export default ruta;

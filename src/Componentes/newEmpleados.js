@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import "../Home/homeP.css";
 import Modal from "react-modal";
 import axios from "axios";
-import {Link} from 'react-router-dom';
-
+import { Link } from "react-router-dom";
 
 Modal.setAppElement("#root");
+
+function retrocederAdmin() {
+  window.location.replace("/admin");
+}
 
 const url = "https://mascotas-empleados.herokuapp.com/";
 
@@ -21,13 +24,11 @@ export default function Empleado() {
   function toggleModal() {
     setIsOpen(!isOpen);
   }
-  
-  const buscarEmpleado = (id,e) => {
+
+  const buscarEmpleado = (id, e) => {
     e.preventDefault();
     axios
-      .get("https://api-empleados.herokuapp.com/api/empleado/"+id, {
-
-      })
+      .get("https://api-empleados.herokuapp.com/api/empleado/" + id, {})
       .then(function (response) {
         console.log(response);
         setId(response.data.cc);
@@ -42,12 +43,10 @@ export default function Empleado() {
         console.log(error);
       });
   };
-  const eliminarEmpleado = (id,e) => {
+  const eliminarEmpleado = (id, e) => {
     e.preventDefault();
     axios
-      .delete("https://api-empleados.herokuapp.com/api/empleado/"+id, {
-
-      })
+      .delete("https://api-empleados.herokuapp.com/api/empleado/" + id, {})
       .then(function (response) {
         console.log(response);
       })
@@ -57,43 +56,43 @@ export default function Empleado() {
   };
   const guardarEmpleado = (e) => {
     e.preventDefault();
-    if(estado!="editar"){
-    axios
-      .post("https://mascotas-empleados.herokuapp.com/empleado", {
-        cc: id,
-        creador: "Admin",
-        direccion: direccion,
-        email: email,
-        fechaDeActualizacion: "Hoy",
-        fechaDeCreacion: "Ayer",
-        nombre: nombre,
-        rol: rol,
-      })
-
-      .then(function (response) {
-        toggleModal();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    }else{
+    if (estado != "editar") {
       axios
-      .put("https://mascotas-empleados.herokuapp.com/empleado/"+docId, {
-        cc: id,
-        creador: "Admin",
-        direccion: direccion,
-        email: email,
-        fechaDeActualizacion: Date.now(),
-        fechaDeCreacion: "Ayer",
-        nombre: nombre,
-        rol: rol,
-      })
-      .then(function (response) {
-        toggleModal();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+        .post("https://mascotas-empleados.herokuapp.com/empleado", {
+          cc: id,
+          creador: "Admin",
+          direccion: direccion,
+          email: email,
+          fechaDeActualizacion: "Hoy",
+          fechaDeCreacion: "Ayer",
+          nombre: nombre,
+          rol: rol,
+        })
+
+        .then(function (response) {
+          toggleModal();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      axios
+        .put("https://mascotas-empleados.herokuapp.com/empleado/" + docId, {
+          cc: id,
+          creador: "Admin",
+          direccion: direccion,
+          email: email,
+          fechaDeActualizacion: Date.now(),
+          fechaDeCreacion: "Ayer",
+          nombre: nombre,
+          rol: rol,
+        })
+        .then(function (response) {
+          toggleModal();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   };
 
@@ -112,7 +111,6 @@ export default function Empleado() {
   return (
     <form>
       <div className="App">
-        
         <Modal
           isOpen={isOpen}
           onRequestClose={toggleModal}
@@ -210,48 +208,57 @@ export default function Empleado() {
                 >
                   Guardar empleado
                 </button>
+                
+                <button class="button is-link is-light" onClick={retrocederAdmin}>
+                  Regresar
+                </button>
               </div>
             </p>
             <hr></hr>
-              <h2>Seleccione el empleado que desea modificar</h2>
-              <br></br>
+            <h2>Seleccione el empleado que desea modificar</h2>
+            <br></br>
             <div class="table_wrapper is-centered">
-              <table class="table is-bordered">
-                <thead>
-                  <tr>
-                    <th style= {{color:"white"}}>ID</th>
-                    <th style= {{color:"white"}}>Email</th>
-                    <th style= {{color:"white"}}>Rol</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {posts.blogs &&
-                    posts.blogs.map((item) => (
-                      <tr key={item.id}>
-                        <td>{item.cc}</td>
-                        <td>{item.email}</td>                    
-                        <td>{item.rol}</td>              
-                        <td><button
-                          class="button is-primary"
-                          onClick={(e) => {
-                            buscarEmpleado(item.id,e);
-                          }}
-                        >
-                          Editar
-                        </button> </td> 
-                        <td><button
-                          class="button is-primary"
-                          onClick={(e) => {
-                            eliminarEmpleado(item.id,e);
-                          }}
-                        >
-                          Borrar
-                        </button></td>         
-                      </tr>
-                      
-                    ))}
-                </tbody>
-              </table>
+              <center>
+                <table class="table is-bordered">
+                  <thead>
+                    <tr>
+                      <th style={{ color: "white" }}>ID</th>
+                      <th style={{ color: "white" }}>Email</th>
+                      <th style={{ color: "white" }}>Rol</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {posts.blogs &&
+                      posts.blogs.map((item) => (
+                        <tr key={item.id}>
+                          <td>{item.cc}</td>
+                          <td>{item.email}</td>
+                          <td>{item.rol}</td>
+                          <td>
+                            <button
+                              class="button is-primary"
+                              onClick={(e) => {
+                                buscarEmpleado(item.id, e);
+                              }}
+                            >
+                              Editar
+                            </button>{" "}
+                          </td>
+                          <td>
+                            <button
+                              class="button is-primary"
+                              onClick={(e) => {
+                                eliminarEmpleado(item.id, e);
+                              }}
+                            >
+                              Borrar
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </center>
             </div>
           </div>
         </div>
