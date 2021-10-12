@@ -1,4 +1,6 @@
-import React from "react";
+import { confirmPasswordReset } from "@firebase/auth";
+import React,{useState,useEffect} from 'react';
+import axios from 'axios';
 
 
 function retroceder() {
@@ -7,7 +9,21 @@ function retroceder() {
 
 
 export default function PropietarioHome() {
+  const [posts, setPosts] = useState({ blogs: [] });
+  
+  useEffect(() => {
+    const fetchPostList = async () => {
+      const { data } = await axios(
+        "https://mascotas-empleados.herokuapp.com/propietario/ByOwner/"+window.localStorage.getItem('emailForSignIn')
+      );
+      setPosts({ blogs: data });
+    };
+    fetchPostList();
+  }, [setPosts]);
 
+  
+  
+  
     return (
       <div>
         <h1>Propietario name</h1>
@@ -27,14 +43,20 @@ export default function PropietarioHome() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Item1</td>
-                    <td>item2</td>
-                    <td>Item3</td>
-                    <td>Item4</td>
-                    <td>Item5</td>
-                  </tr>
-                </tbody>
+                {posts.blogs &&
+                  posts.blogs.map((item) => (
+                    <tr key={item.owner}>
+                      <td>{item.name}</td>
+                      <td>{item.trasporte}</td>
+                      <td>{item.horadeEntrega}</td>
+                      <td>{item.horadeRecogida}</td>
+                      <td>
+                       {console.log(item)} 
+                      </td>
+                      
+                    </tr>
+                  ))}
+              </tbody>
               </table>
             </center>
           </div>

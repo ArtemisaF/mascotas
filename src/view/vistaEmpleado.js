@@ -140,8 +140,8 @@ export default function Empleado(){
           <div class="control">
             <input
               class="input"
-              type="number"
-              placeholder="Id Propietario"
+              type="text"
+              placeholder="correo"
               id="idPropietario"
               required="true"
               value={idPropietario}

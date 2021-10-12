@@ -9,7 +9,6 @@ function retrocederAdmin() {
   window.location.replace("/admin");
 }
 
-const url = "https://api-propietarios.herokuapp.com/api/propietario";
 
 export default function Propietario() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,6 +17,8 @@ export default function Propietario() {
   const [email, setEmail] = useState("");
   const [direccion, setDireccion] = useState("");
   const [celular, setCelular] = useState("");
+  const [estado, setEstado] = useState("");
+  const [docId, setDocId] = useState("");
   function toggleModal() {
     setIsOpen(!isOpen);
   }
@@ -25,7 +26,7 @@ export default function Propietario() {
   const guardarPropietario = (e) => {
     e.preventDefault();
     axios
-      .post("https://api-propietarios.herokuapp.com/api/propietario", {
+      .post("https://mascotas-empleados.herokuapp.com/propietario", {
         name: nombre,
         cc: cedula,
         email: email,
