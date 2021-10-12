@@ -1,27 +1,86 @@
 import { confirmPasswordReset } from "@firebase/auth";
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
+import Modal from "../Modal";
 
 
 function retroceder() {
   window.location.replace("/propietario");
 }
-
+;
 
 export default function PropietarioHome() {
   const [posts, setPosts] = useState({ blogs: [] });
-  
+  const [fechaRecogida,setFechaRecogida]=useState("");
+  const [fechaEntrega,setFechaEntrega]=useState("");
+  const [active,setActive]= useState(false);
+  const [id,setId]=useState("");
+
+  const toggle = (idM,e) => {
+    e.preventDefault();
+    setActive(!active);
+    setId(idM)
+  }
   useEffect(() => {
     const fetchPostList = async () => {
       const { data } = await axios(
         "https://mascotas-empleados.herokuapp.com/propietario/ByOwner/"+window.localStorage.getItem('emailForSignIn')
       );
       setPosts({ blogs: data });
+      
     };
     fetchPostList();
   }, [setPosts]);
 
-  
+  const newfechaR =(id)=>{
+    axios
+      .put("https://mascotas-empleados.herokuapp.com/mascota/fechaRecogida/"+id+"/"+fechaRecogida, {
+
+      })
+      .then(function (response) {
+        console.log(response);
+        
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  const newfechaE =(id)=>{
+    axios
+      .put("https://mascotas-empleados.herokuapp.com/mascota/fechaEntrada/"+id+"/"+fechaEntrega, {
+
+      })
+      .then(function (response) {
+        console.log(response);
+        
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  const newAgenda =(id)=>{
+    axios
+      .put("https://mascotas-empleados.herokuapp.com/mascota/trasporte/"+id, {
+
+      })
+      .then(function (response) {
+        console.log(response);
+        
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  const angendarMascota = (id,e) => {
+    e.preventDefault();
+    newAgenda(id);
+    newfechaE(id);
+    newfechaR(id);
+    window.location.reload();
+  };
   
   
     return (
@@ -50,8 +109,10 @@ export default function PropietarioHome() {
                       <td>{item.trasporte}</td>
                       <td>{item.horadeEntrega}</td>
                       <td>{item.horadeRecogida}</td>
-                      <td>
-                       {console.log(item)} 
+                      <td>{item.actividad} </td>
+                      <td>  <button class="button is-primary" onClick={(e) => {
+                            toggle(item.id, e);
+                          }}>Agendar trasporte</button>
                       </td>
                       
                     </tr>
@@ -61,10 +122,49 @@ export default function PropietarioHome() {
             </center>
           </div>
           <br></br>
-          <button class="button is-link is-light" onClick={retroceder}>
-            Regresar
-          </button>
+          <div class="buttons is-centered">
+                
+                <button class="button is-link is-light" onClick={retroceder}>
+                   Regresar
+                 </button>
+              </div>
+          
         </center>
+        <Modal active={active} toggle={(e) => {
+                            toggle(id, e);
+                          }}>
+            <div className="App">
+                <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="Fecha de recogida"
+                  id="Fr"
+                  required="true"
+                  value={fechaRecogida}
+                  onChange={(ev) => setFechaRecogida(ev.target.value)}
+                ></input>
+              </div>
+              <br></br> 
+                <div class="control">
+              <input
+                class="input"
+                type="text"
+                placeholder="Fecha de entrega"
+                id="Fe"
+                required="true"
+                value={fechaEntrega}
+                onChange={(ev) => setFechaEntrega(ev.target.value)}
+              ></input>
+            </div>  
+            <button class="button is-primary" onClick={(e) => {
+                            angendarMascota(id, e);
+                          }} >
+                                Finalizar
+                            </button>          
+            </div>
+        </Modal>
+        
       </div>
     );
 

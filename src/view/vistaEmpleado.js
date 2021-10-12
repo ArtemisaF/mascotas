@@ -24,6 +24,7 @@ export default function Empleado(){
     const [cuidados,setCuidados] =useState('');
     const [estado, setEstado] = useState("");
     const [docId, setDocId] = useState("");
+    const [actividad,setActividad]= useState("");
     function toggleModal() {
       setIsOpen(!isOpen);
     }
@@ -37,7 +38,11 @@ export default function Empleado(){
           owner: idPropietario,
           name: nombre,
           edad: edad,
-          cuidados: cuidados 
+          cuidados: cuidados, 
+          actividad: actividad,
+          trasporte:"Sin agendar",
+          horadeEntrega:"Sin agendar",
+          horadeRecogida:"Sin agendar"
         })
         
         .then(function (response) {
@@ -53,7 +58,11 @@ export default function Empleado(){
             owner: idPropietario,
             name: nombre,
             edad: edad,
-            cuidados: cuidados 
+            cuidados: cuidados, 
+            actividad: actividad,
+            trasporte:"Sin agendar",
+            horadeEntrega:"Sin agendar",
+            horadeRecogida:"Sin agendar"
         })
         .then(function (response) {
           toggleModal();
@@ -182,11 +191,13 @@ export default function Empleado(){
             <div class="control">
               <div class="select">
                 <select>
+                  <option>Escoja una opcion</option>
                   <option>Husky</option>
                   <option>Bulldog</option>
                   <option>Labrador retriever</option>
                   <option>Chihuahua</option>
                   <option>Pomerian</option>
+                  <option>Criollo</option>
                 </select>
               </div>
             </div>
@@ -201,6 +212,7 @@ export default function Empleado(){
             <div class="control">
               <div class="select">
                 <select>
+                  <option>Escoja una opcion</option>
                   <option>Pequeño</option>
                   <option>Mediano</option>
                   <option>Grande</option>
@@ -218,6 +230,27 @@ export default function Empleado(){
               value={cuidados}
               onChange={(ev) => setCuidados(ev.target.value)}
             ></input>
+          </div>
+          <div
+            class="field"
+            required="true"
+            value={actividad}
+            onChange={(ev) => setActividad(ev.target.value)}
+          >
+            <label class="label">Seleccionar Actividad</label>
+            <div class="control">
+              <div class="select">
+                <select>
+                  <option>Escoja una opcion</option>
+                  <option>Entrenamiento</option>
+                  <option>Caminata</option>
+                  <option>Baño</option>
+                  <option>Picnic</option>
+                  <option>Nadar</option>
+                  <option>Cuidados generales</option>
+                </select>
+              </div>
+            </div>
           </div>
           <br></br>
           <br></br>
